@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Panganten Organizer</title>
+        <script src = "https://kotanukikyoso.github.io/particles.jsWithRotateAndImageOpacity/particles.min.js"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                font-family: 'Nanum Gothic', sans-serif;
+                scroll-behavior: smooth;
+                color: #2e2e2e;
+                overflow-x: hidden;
+            }
+
+            img {
+                -webkit-user-drag: none;
+                user-select: none;
+            }
+
+            h1, h2 {
+                font-family: 'Great Vibes', serif;
+            }
+
+            a {
+                font: inherit;
+                text-decoration: none;
+                color: #fafafa;
+            }
+
+            .main-banner {
+                width: 100%;
+                height: 100%;
+                background-image: url(https://akcdn.detik.net.id/community/media/visual/2023/03/12/pernikahan-adat-sunda-citra-kirana-dan-rezky-aditya.png?w=700&q=90);
+                background-repeat: no-repeat;
+                background-size: cover;
+                position: relative;
+                background-attachment: fixed;
+            }
+
+            .main-banner-overlay {
+                width: 100%;
+                height: 100%;
+                background: black;
+                opacity: 0.5;
+                position: absolute;
+            }
+
+            .main-banner-title {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
+                font-size: 15pt;
+                color: #fafafa;
+                text-align: center;
+                z-index: 3;
+            }
+
+            .main-banner-title h1 {
+                font-size: 55pt;
+                font-family: 'Great Vibes', serif;
+                margin: 0;
+            }
+            
+            .packages {
+                display: flex;
+                width: 100%;
+                min-height: 100%;
+                height: max-content;
+                flex-direction: column;
+                padding: 64px;
+                box-sizing: border-box;
+                gap: 64px;
+                text-align: center;
+                background-image: url(bg.png);
+                background-repeat: no-repeat;
+            }
+
+            .packages h1 {
+                margin: 0;
+                font-size: 35pt;
+            }
+
+            .packages-wrapper {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                gap: 32px;
+                align-items: stretch;
+                justify-content: stretch;
+            }
+
+            .package {
+                width: 100%;
+                min-height: 0;
+                align-self: stretch;
+                background: white;
+                border: 1px solid #c2c2c2;
+                display: flex;
+                flex-direction: column;
+                padding: 0 16px 32px 16px;
+                box-sizing: border-box;
+                align-items: center;
+                border-radius: 16px;
+                box-shadow: 0px 0px 23px -4px rgba(0,0,0,0.25);
+                flex-grow: 1;
+            }
+
+            .package-title {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: translateY(-16px);
+            }
+
+            .package-title img {
+                width: 256px;
+                height: auto;
+            }
+
+            .package-title img:first-child {
+                transform: translateY(40px);
+                z-index: -1;
+            }
+
+            .package-title img:last-child {
+                transform: translateY(-40px) scaleY(-1);
+                z-index: -1;
+            }
+
+            .package-title h2 {
+                font-family: 'Great Vibes', serif;
+                font-size: 25pt;
+                letter-spacing: 3px;
+                color: #614124;
+            }
+
+            .package-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 8px;
+                transform: translateY(-48px);
+                height: 100%;
+                flex-grow: 1;
+            }
+            
+            .package-content .button {
+                margin-bottom: 16px;
+                width: 100%;
+                justify-self: stretch;
+                align-self: stretch;
+            }
+
+            .package-content small {
+                margin-bottom: 16px;
+            }
+
+            .button {
+                background: #c6bc8a;
+                color: #373737;
+                font-weight: bolder;
+                border: none;
+                padding: 16px 32px;
+                border-radius: 8px;
+                font: inherit;
+                font-size: 12pt;
+                width: max-content;
+            }
+
+            .button:focus {
+                outline: none;
+            }
+
+            .title-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .title-wrapper img {
+                width: 512px;
+                height: 128px;
+            }
+
+            .title-wrapper img:first-child {
+                transform: translateX(64px);
+            }
+
+            .title-wrapper img:last-child {
+                transform: translateX(-64px) scaleX(-1);
+            }
+
+            #particles-js {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                height: 100%;
+                width: 100%;
+            }
+
+            .words {
+                padding: 64px 128px;
+                display: flex;
+                width: 100%;
+                box-sizing: border-box;
+                gap: 128px;
+                justify-content: center;
+            }
+
+            .bride-container {
+                position: relative;
+                min-height: 384px;
+                min-width: 384px;
+                max-height: 384px;
+                min-width: 384px;
+            }
+
+            .bride-bg {
+                width: 100%;
+                height: 100%;
+                background-image: url(bridebg.jpg);
+                filter: blur(2px);
+                border-radius: 50%;
+                opacity: 0.8;
+            }
+
+            .bride-container::after {
+                content: '';
+                width: calc(100% - 3px);
+                height: calc(100% - 3px);
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                border-radius: 50%;
+                border: 6px solid white;
+            }
+
+            .bride {
+                width: 384px;
+                height: 384px;
+                border-radius: 50%;
+                position: absolute;
+                top: 2px;
+                left: 0;
+            }
+
+            .words h1 {
+                font-size: 35pt;
+                margin: 0 0 16px 0;
+            }
+
+            .word-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .contact {
+                padding: 64px 256px;
+                width: 100%; 
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-sizing: border-box;
+            }
+
+            .form {
+                display: flex;
+                gap: 16px;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .contact h1 {
+                margin: 0;
+                font-size: 35pt;
+            }
+
+            .input {
+                padding: 8px 16px; 
+                background: white;
+                font: inherit;
+                border: 1px solid #c2c2c2;
+                border-radius: 8px;
+            }
+
+            .input:focus {
+                outline: none;
+            }
+
+            textarea {
+                resize: none;
+            }
+
+            .footer {
+                width: 100%;
+                background: #2e2e2e;
+                padding: 16px 32px;
+                color: #fafafa;
+                background-image: url(ornament4.png);
+                background-repeat: no-repeat;
+                background-position-x: calc(100% - 256px);
+                background-position-y: center;
+                display: flex;
+                padding: 64px 128px;
+            }
+
+            .footer-section {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-section h2 {
+                font-size: 25pt;
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class = "main-banner">
+            <div id = "particles-js"></div>
+
+            <div class = "main-banner-overlay"></div>
+            <div class = "main-banner-title">
+                <div class = "title-wrapper">
+                    <img src = "ornament1.png">
+                    <h1>Panganten Organizer</h1>
+                    <img src = "ornament1.png">
+                </div>
+                <p>Rayakan momen terbaikmu bersama kami.</p>
+
+                <a href = "#1"><button class = "button">Cek paket-paket</button></a>
+            </div>
+        </div>
+
+        <div class = "words">
+            <div class = "bride-container">
+                <div class = "bride-bg"></div>
+                <img class = "bride" src = "bride.png">
+            </div>
+
+            <div class = "word-container">
+                <h1>Tak perlu ragu bersama kami.</h1>
+
+                <p>Dengan pengalaman kami selama bertahun-tahun dan telah melayani banyak klien, kami akan membuat pernikahan impian Anda menjadi nyata.</p>
+
+                <a class = "button" href = "#2">Hubungi kami</a>
+            </div>
+        </div>
+
+        <div class = "packages" id = "1">
+            <div class = "packages-title">
+                <h1>Paket-paket</h1>
+                <p>Berikut merupakan paket yang kami sediakan</p>
+            </div>
+
+            <div class = "packages-wrapper">
+                <div class = "package">
+                    <div class = "package-title">
+                        <img src = "ornament2.png">
+                        <h2>Paket Gold</h2>
+                        <img src = "ornament2.png">
+                    </div>
+
+                    <div class = "package-content">
+                        <small>Untuk 250 undangan<br>Mulai dari Rp. 25.000.000</small>
+
+                        <span>Sewa tenda dan kursi</span>
+                        <span>Dekorasi</span>
+                        <span>Rias dan sewa busana</span>
+                        <span>Segala keperluan untuk upacara adat Sunda</span>
+                        <span>Undangan</span>
+                        <span>Foto dokumentasi</span>
+                        <span>MC 1x datang</span>
+                        <span>Penyanyi</span>
+                        <span>Sound system</span>
+                        <span>Katering 275pax</span>
+                    </div>
+
+                    <button class = "button">Pesan paket</button>
+                </div>
+
+                <div class = "package">
+                    <div class = "package-title">
+                        <img src = "ornament2.png">
+                        <h2>Paket Diamond</h2>
+                        <img src = "ornament2.png">
+                    </div>
+
+                    <div class = "package-content">
+                        <small>Untuk 350 undangan<br>Mulai dari Rp. 40.000.000</small>
+
+                        <span>Sewa tenda dan kursi</span>
+                        <span>Dekorasi</span>
+                        <span>Rias dan sewa busana</span>
+                        <span>Segala keperluan untuk upacara adat Sunda</span>
+                        <span>Souvenir dan undangan</span>
+                        <span>Foto dan video dokumentasi</span>
+                        <span>MC 1x datang</span>
+                        <span>Penyanyi</span>
+                        <span>Sound system</span>
+                        <span>Doorprize untuk undangan</span>
+                        <span>Katering 375pax</span>
+
+                    </div>
+
+                    <button class = "button">Pesan paket</button>
+                </div>
+
+                <div class = "package">
+                    <div class = "package-title">
+                        <img src = "ornament2.png">
+                        <h2>Paket Platinum</h2>
+                        <img src = "ornament2.png">
+                    </div>
+
+                    <div class = "package-content">
+                        <small>Untuk 250 undangan<br>Mulai dari Rp. 70.000.000</small>
+
+                        <span>Sewa gedung pernikahan</span>
+                        <span>Dekorasi premium</span>
+                        <span>Rias dan sewa busana</span>
+                        <span>Segala keperluan untuk upacara adat Sunda</span>
+                        <span>Souvenir dan undangan</span>
+                        <span>Foto dan video dokumentasi</span>
+                        <span>Photobooth untuk tamu undangan</span>
+                        <span>MC 1x datang</span>
+                        <span>Penyanyi</span>
+                        <span>Sound system</span>
+                        <span>Doorprize untuk undangan</span>
+                        <span>Katering 300pax</span>
+
+                    </div>
+
+                    <button class = "button">Pesan paket</button>
+                </div>
+            </div>
+        </div>
+
+        <div class = "contact" id = "2">
+            <h1>Perlu bantuan kami?</h1>
+
+            <p>Silakan gunakan form ini untuk menghubungi kami</p>
+            
+            <form class = "form">
+                <label name = "name">Nama Anda: </label>
+                <input class = "input" placeholder = "Contoh: Budi Haryono">
+
+                <label name = "phone">Nomor telepon: </label>
+                <input class = "input" type = "number" placeholder = "Contoh: 081234567890">
+
+                <label name = "message">Pesan yang ingin Anda sampaikan: </label>
+                <textarea class = "input" rows = "5" placeholder = "Contoh: Saya ingin mengkolsultasikan tentang pernikahan saya..."></textarea>
+
+                <button class = "button">Kirim</button>
+            </form>
+        </div>
+
+        <footer class = "footer">
+            <div class = "footer-section">
+                <h2>Panganten Organizer</h2>
+                <p>Rayakan momen terbaikmu bersama kami.</p>
+
+                <a href = "">contact@pengantenwo.rf.gd</a>
+            </div>
+
+            <div class = "footer-section">
+                <a>Tentang kami</a>
+                <a>Portofolio</a>
+                <a>Penjelasan Adat Sunda</a>
+                <a>Paket-paket kami</a>
+                <a>Layanan lainnya</a>
+            </div>
+
+            <div class = "footer-section"></div>
+        </footer>
+
+        <script>
+            window.onload = function() {
+                particlesJS('particles-js',{
+                "particles": {
+                    "number": {
+                    "value": 30,
+                    "density": {
+                        "enable": false,
+                        "value_area": 50
+                    }
+                    },
+                    "color": {
+                    "value": "#fff"
+                    },
+                    "shape": {
+                    "type": "image",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#ffffff"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "particle.png",
+                        "width": 20,
+                        "height": 20
+                    }
+                    },
+                    "opacity": {
+                    "value": 0.8,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                    },
+                    "size": {
+                    "value": 20,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "size_min": 10,
+                        "sync": false
+                    }
+                    },
+                    "rotate": {
+                    "value": 360,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": -10
+                    }
+                    },
+                    "line_linked": {
+                    "enable": false,
+                    "distance": 500,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 2
+                    },
+                    "move": {
+                    "enable": true,
+                    "speed": 3,
+                    "direction": "bottom",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 6234,
+                        "rotateY": 6155
+                    }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                    "onhover": {
+                        "enable": false,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                    },
+                    "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                        "opacity": 0.5
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 4,
+                        "duration": 0.3,
+                        "opacity": 1,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                    }
+                },
+                "retina_detect": true
+                });
+                };
+        </script>
+    </body>
+</html>
